@@ -1,8 +1,7 @@
 package com.rpg.rpg_app.character.service;
 
-import com.rpg.rpg_app.character.entity.Character;
-
 import java.util.List;
+import com.rpg.rpg_app.character.entity.Character;
 
 public interface CharacterIService {
 

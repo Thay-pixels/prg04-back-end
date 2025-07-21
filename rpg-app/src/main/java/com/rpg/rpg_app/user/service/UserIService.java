@@ -1,7 +1,6 @@
 package com.rpg.rpg_app.user.service;
 
 import com.rpg.rpg_app.user.entity.User;
-
 import java.util.List;
 
 public interface UserIService {
