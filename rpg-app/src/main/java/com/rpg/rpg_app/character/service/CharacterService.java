@@ -9,13 +9,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CharacterService {
+public class CharacterService implements CharacterIService {
 
     private final CharacterRepository characterRepository;
 
     //Funçao teste para testar a 'api'.
     public String printNameCharacter(String name) {
+
         return "Character " + name;
+
     }
 
     //Função de salvar personagem.

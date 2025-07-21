@@ -1,18 +1,15 @@
 package com.rpg.rpg_app.user.service;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.rpg.rpg_app.user.entity.User;
 import com.rpg.rpg_app.user.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserIService {
 
     private final UserRepository userRepository;
 
