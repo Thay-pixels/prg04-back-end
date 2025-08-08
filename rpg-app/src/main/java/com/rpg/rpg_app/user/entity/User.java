@@ -1,7 +1,10 @@
 package com.rpg.rpg_app.user.entity;
 
+import com.rpg.rpg_app.infrastructure.PersistenceEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -9,11 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; //Id único.
+@EqualsAndHashCode(callSuper = true)
+public class User extends PersistenceEntity implements Serializable {
 
     @Column(name = "usernames", unique = true)
     @Getter @Setter private String username; //Username do usuário.
