@@ -1,5 +1,6 @@
 package com.rpg.rpg_app.user.service;
 
+import com.rpg.rpg_app.infrastructure.exception.BusinessException;
 import com.rpg.rpg_app.user.entity.User;
 import com.rpg.rpg_app.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +22,7 @@ public class UserService implements UserIService {
                 !StringUtils.hasText(user.getUsername()) ||
                 !StringUtils.hasText(user.getPassword()) ||
                 !StringUtils.hasText(user.getEmail())) {
-            throw new IllegalArgumentException("Os  campos obrigatórios não podem estar vazios.");
+            throw new BusinessException("Os  campos obrigatórios não podem estar vazios.");
         }
 
     }
@@ -37,7 +38,7 @@ public class UserService implements UserIService {
     @Override
     public User update(User user) {
         if (user.getId() == null || !userRepository.existsById(user.getId())) {
-            throw new EntityNotFoundException("O usuario não foi encontrado para atualizar.");
+            throw new BusinessException("O usuario não foi encontrado para atualizar.");
         }
 
         validation(user);
@@ -49,7 +50,7 @@ public class UserService implements UserIService {
     @Override
     public void delete(User user) {
         if (user == null || user.getId() == null) {
-            throw new IllegalArgumentException("O usuário não foi econtrado para deletar.");
+            throw new BusinessException("O usuário não foi econtrado para deletar.");
         }
 
         userRepository.delete(user);
@@ -58,11 +59,9 @@ public class UserService implements UserIService {
 
     //Função de encontrar usuario por ID.
     public User findById(Long id) {
-        if(!userRepository.existsById(id)) {
-            throw new IllegalArgumentException("O usuário não foi encontrado.");
-        }
 
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow( () -> new BusinessException("O usuário não foi encontrado."));
 
     }
 

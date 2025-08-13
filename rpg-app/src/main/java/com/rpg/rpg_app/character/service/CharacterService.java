@@ -2,6 +2,7 @@ package com.rpg.rpg_app.character.service;
 
 import com.rpg.rpg_app.character.entity.Character;
 import com.rpg.rpg_app.character.repository.CharacterRepository;
+import com.rpg.rpg_app.infrastructure.exception.BusinessException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CharacterService implements CharacterIService {
         if (character == null ||
                 !StringUtils.hasText(character.getName()) ||
                 !StringUtils.hasText(character.getRaca())) {
-            throw new IllegalArgumentException("Os  campos obrigatórios não podem estar vazios.");
+            throw new BusinessException("Os  campos obrigatórios não podem estar vazios.");
         }
 
     }
@@ -44,7 +45,7 @@ public class CharacterService implements CharacterIService {
     @Override
     public Character update(Character character) {
         if (character.getId() == null || !characterRepository.existsById(character.getId())) {
-            throw new EntityNotFoundException("O usuario não foi encontrado para atualizar.");
+            throw new BusinessException("O usuario não foi encontrado para atualizar.");
         }
 
         validation(character);
@@ -56,7 +57,7 @@ public class CharacterService implements CharacterIService {
     @Override
     public void delete(Character character) {
         if (character == null || character.getId() == null) {
-            throw new IllegalArgumentException("O usuário não foi econtrado para deletar.");
+            throw new BusinessException("O usuário não foi econtrado para deletar.");
         }
 
         characterRepository.delete(character);
@@ -66,11 +67,9 @@ public class CharacterService implements CharacterIService {
     //Função de encontrar personagem por ID.
     @Override
     public Character findById(Long id) {
-        if(!characterRepository.existsById(id)) {
-            throw new IllegalArgumentException("O usuário não foi encontrado.");
-        }
 
-        return characterRepository.findById(id).orElse(null);
+        return characterRepository.findById(id)
+                .orElseThrow( () -> new BusinessException("Personagem não encontrado"));
 
     }
 

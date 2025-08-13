@@ -1,10 +1,10 @@
 package com.rpg.rpg_app.character.controller;
 
 import com.rpg.rpg_app.character.dto.CharacterGetResponseDTO;
+import com.rpg.rpg_app.character.dto.CharacterPostRequestDTO;
 import com.rpg.rpg_app.character.entity.Character;
 import com.rpg.rpg_app.character.service.CharacterService;
 import com.rpg.rpg_app.infrastructure.mapper.ObjectMapperUtil;
-import com.rpg.rpg_app.user.entity.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

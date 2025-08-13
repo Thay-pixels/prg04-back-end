@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CharacterPostResponseDTO {
+public class CharacterPostRequestDTO {
 
     @JsonProperty(value = "name")
     private String name;
