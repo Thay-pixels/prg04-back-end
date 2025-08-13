@@ -5,14 +5,11 @@ import java.util.List;
 
 public interface UserIService {
 
-    //Funçao teste usada para testar a 'api'.
-    public abstract String printUserName(String username);
-
     //Função de salvar usuario.
-    public abstract void save(User user);
+    public abstract User save(User user);
 
     //Função de dar update num usuario.
-    public abstract void update(User user);
+    public abstract User update(User user);
 
     //Funcao de apagar um usuario.
     public abstract void delete(User user);

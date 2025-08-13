@@ -1,6 +1,6 @@
 package com.rpg.rpg_app.user.entity;
 
-import com.rpg.rpg_app.infrastructure.PersistenceEntity;
+import com.rpg.rpg_app.infrastructure.entity.PersistenceEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

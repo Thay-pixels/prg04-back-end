@@ -34,21 +34,21 @@ public class CharacterService implements CharacterIService {
 
     //Função de salvar usuario.
     @Override
-    public void save(Character character) {
+    public Character save(Character character) {
         validation(character);
-        characterRepository.save(character);
+        return characterRepository.save(character);
 
     }
 
     //Função de dar update num usuario.
     @Override
-    public void update(Character character) {
+    public Character update(Character character) {
         if (character.getId() == null || !characterRepository.existsById(character.getId())) {
             throw new EntityNotFoundException("O usuario não foi encontrado para atualizar.");
         }
 
         validation(character);
-        characterRepository.save(character);
+        return characterRepository.save(character);
 
     }
 

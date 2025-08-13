@@ -1,12 +1,14 @@
 package com.rpg.rpg_app.user.controller;
 
 import com.rpg.rpg_app.character.entity.Character;
+import com.rpg.rpg_app.infrastructure.mapper.ObjectMapperUtil;
+import com.rpg.rpg_app.user.dto.UserGetResponseDTO;
+import com.rpg.rpg_app.user.dto.UserPostRequestDTO;
 import com.rpg.rpg_app.user.entity.User;
 import com.rpg.rpg_app.user.repository.UserRepository;
 import com.rpg.rpg_app.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,47 +17,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users-rpg")
+@RequestMapping("/user-rpg")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+    private final ObjectMapperUtil objectMapperUtil;
 
-    /*
-    //Funções de teste de retorno e funcionamento da api.
-    @GetMapping
-    public String printUsername(String username) {
-        return userService.printUserName("usuario01");
+    //Encontra todos os usuários.
+    @GetMapping(path = "/findall", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserGetResponseDTO>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(objectMapperUtil.mapAll(this.userService.findAll(), UserGetResponseDTO.class));
     }
 
-    @PostMapping
-    public String addUser(@RequestBody User user) {
-        return "Hello "  + user.getUsername();
+    //Salva usuário.
+    @PostMapping(path = "/save-user", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> save(@RequestBody UserPostRequestDTO userPostRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(objectMapperUtil.map(
+                        userService.save(objectMapperUtil.map(userPostRequestDto, User.class)
+                        ), UserGetResponseDTO.class
+                ));
     }
 
-    @GetMapping(path = "findall")
-    public List<User> getAllUsers(){
-
-        return  userService.findAll();
-    }
-
-     */
-
-    //Salva usuario.
-    @PostMapping(path = "/save-user", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> save(@RequestBody User user) {
-
-        try {
-            userService.save(user);
-            return ResponseEntity.ok("Usuário salvo com sucesso!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erro ao salvar: " + e.getMessage());
-        }
-
-    }
-
-    //Deleta usuario.
+    //Deleta usuário.
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try {
@@ -67,48 +55,43 @@ public class UserController {
         }
     }
 
-    //Encontra todos os usuarios.
-    @GetMapping(path = "/findall", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
-    }
-
-    //Encontra usuario por ID.
+    //Encontra usuário por ID.
     @GetMapping(path = "/find/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
-            User user = userService.findById(id);
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(
+                    objectMapperUtil.map(userService.findById(id), UserGetResponseDTO.class)
+            );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
         }
     }
 
-    //Encontra usuario por username.
+    //Encontra usuário por username.
     @GetMapping(path = "/find/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByUsername(@PathVariable String username) {
         try {
-            List<User> user = userService.findByUsername(username);
-            if (user.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum personagem encontrado com esse nome.");
+            List<UserGetResponseDTO> users = objectMapperUtil.mapAll(userService.findByUsername(username), UserGetResponseDTO.class);
+            if (users.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum usuário encontrado com esse nome.");
             }
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(users);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar personagem com este nome.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar usuário com este nome.");
         }
     }
 
-    //Encontra usuario por username.
+    //Encontra usuário por email.
     @GetMapping(path = "/find/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByEmail(@PathVariable String email) {
         try {
-            List<User> user = userService.findByEmail(email);
-            if (user.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum personagem encontrado com esse nome.");
+            List<UserGetResponseDTO> users = objectMapperUtil.mapAll(userService.findByEmail(email), UserGetResponseDTO.class);
+            if (users.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum usuário encontrado com esse email.");
             }
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(users);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar personagem com este nome.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar usuário com este email.");
         }
     }
 

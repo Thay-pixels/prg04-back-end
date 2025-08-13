@@ -26,30 +26,22 @@ public class UserService implements UserIService {
 
     }
 
-    //Função teste para testar se a 'api' funciona.
-    public String printUserName(String username) {
-
-        return "Bem vindo usuário :" + username;
-
-    }
-
     //Função de salvar usuario.
     @Override
-    public void save(User user) {
+    public User save(User user) {
         validation(user);
-        userRepository.save(user);
-
+        return userRepository.save(user);
     }
 
     //Função de dar update num usuario.
     @Override
-    public void update(User user) {
+    public User update(User user) {
         if (user.getId() == null || !userRepository.existsById(user.getId())) {
             throw new EntityNotFoundException("O usuario não foi encontrado para atualizar.");
         }
 
         validation(user);
-        userRepository.save(user);
+        return userRepository.save(user);
 
     }
 

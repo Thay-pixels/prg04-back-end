@@ -1,4 +1,4 @@
-package com.rpg.rpg_app.infrastructure;
+package com.rpg.rpg_app.infrastructure.entity;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

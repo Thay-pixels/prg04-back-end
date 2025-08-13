@@ -1,7 +1,9 @@
 package com.rpg.rpg_app.character.controller;
 
+import com.rpg.rpg_app.character.dto.CharacterGetResponseDTO;
 import com.rpg.rpg_app.character.entity.Character;
 import com.rpg.rpg_app.character.service.CharacterService;
+import com.rpg.rpg_app.infrastructure.mapper.ObjectMapperUtil;
 import com.rpg.rpg_app.user.entity.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +21,24 @@ import java.util.List;
 public class CharacterController {
 
     private final CharacterService characterService;
+    private final ObjectMapperUtil objectMapperUtil;
 
-    //Função simples apenas para testar o retorno da api.
-    @GetMapping("/character-name")
-    public String nameCharacter(String name) {
-
-        return characterService.printNameCharacter(name);
+    //Encontra todos os personagens.
+    @GetMapping(path = "/findall", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CharacterGetResponseDTO>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(objectMapperUtil.mapAll(this.characterService.findAll(), CharacterGetResponseDTO.class));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<String> save(@RequestBody Character character) {
-        try {
-            characterService.save(character);
-            return ResponseEntity.ok("Personagem salvo com sucesso!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erro ao salvar personagem: " + e.getMessage());
-        }
+    //Salva personagem.
+    @PostMapping(path = "/save-character", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> save(@RequestBody CharacterPostRequestDTO characterPostRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(objectMapperUtil.map(
+                        characterService.save(objectMapperUtil.map(characterPostRequestDto, Character.class))
+                        , CharacterGetResponseDTO.class
+                ));
     }
 
     //Deleta personagem.
@@ -49,28 +53,23 @@ public class CharacterController {
         }
     }
 
-    //Encontra todos os personagens.
-    @GetMapping(path = "/findall", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Character>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(characterService.findAll());
-    }
-
     //Encontra personagem por ID.
     @GetMapping(path = "/find/character/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
-            Character character = characterService.findById(id);
-            return ResponseEntity.ok(character);
+            return ResponseEntity.ok(
+                    objectMapperUtil.map(characterService.findById(id), CharacterGetResponseDTO.class)
+            );
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("personagem não encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Personagem não encontrado.");
         }
     }
 
-    //Encontra personagem por raca.
+    //Encontra personagem por nome.
     @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByName(@PathVariable String name) {
         try {
-            List<Character> characters = characterService.findByName(name);
+            List<CharacterGetResponseDTO> characters = objectMapperUtil.mapAll(characterService.findByName(name), CharacterGetResponseDTO.class);
             if (characters.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum personagem encontrado com esse nome.");
             }
@@ -80,12 +79,11 @@ public class CharacterController {
         }
     }
 
-
-    //Encontra personagem por raca.
+    //Encontra personagem por raça.
     @GetMapping(path = "/find/raca/{raca}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByRaca(@PathVariable String raca) {
         try {
-            List<Character> characters = characterService.findByRaca(raca);
+            List<CharacterGetResponseDTO> characters = objectMapperUtil.mapAll(characterService.findByRaca(raca), CharacterGetResponseDTO.class);
             if (characters.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum personagem encontrado com essa raça.");
             }

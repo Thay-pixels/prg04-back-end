@@ -9,10 +9,10 @@ public interface CharacterIService {
     public abstract String printNameCharacter(String name);
 
     //Função de salvar personagem.
-    public abstract void save (Character character);
+    public abstract Character save (Character character);
 
     //Função de dar update num personagem.
-    public abstract void update(Character character);
+    public abstract Character update(Character character);
 
     //Funcao de apagar um personagem.
     public abstract void delete(Character character);
