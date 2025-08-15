@@ -6,6 +6,7 @@ import com.rpg.rpg_app.infrastructure.exception.BusinessException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class CharacterService implements CharacterIService {
 
     //Função de salvar usuario.
     @Override
+    @Transactional
     public Character save(Character character) {
         validation(character);
         return characterRepository.save(character);
@@ -43,6 +45,7 @@ public class CharacterService implements CharacterIService {
 
     //Função de dar update num usuario.
     @Override
+    @Transactional
     public Character update(Character character) {
         if (character.getId() == null || !characterRepository.existsById(character.getId())) {
             throw new BusinessException("O usuario não foi encontrado para atualizar.");
@@ -55,6 +58,7 @@ public class CharacterService implements CharacterIService {
 
     //Funcao de apagar um usuario.
     @Override
+    @Transactional
     public void delete(Character character) {
         if (character == null || character.getId() == null) {
             throw new BusinessException("O usuário não foi econtrado para deletar.");
