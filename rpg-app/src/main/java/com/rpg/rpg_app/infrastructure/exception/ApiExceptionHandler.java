@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
-public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApiExceptionHandler {
 
     @Value(value = "${server.error.include-exception}")
     private boolean printStackTrace;
@@ -36,7 +36,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String fieldsMessage = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(","));
 
         return new ResponseEntity<>(
-                ValidationExceptionsDetails.ValidationExceptionDetails.builder()
+                ValidationExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
                         .status(HttpStatus.BAD_REQUEST.value())
                         .title("Bad Request Exception, Campos Inválidos")
@@ -49,7 +49,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<Object> handleBusinessException(
+            BusinessException ex) {
+        log.error("BusinessException capturada: {}", ex.getMessage());
 
+        return new ResponseEntity<>(
+                ValidationExceptionDetails.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .title("Bad Request Exception, Campos Inválidos")
+                        .details(ex.getMessage())
+                        .developerMessage(ex.getClass().getName())
+                        .build(),
+                HttpStatus.BAD_REQUEST
+        );
 
+    }
 
 }
