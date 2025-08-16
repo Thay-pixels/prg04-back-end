@@ -8,6 +8,7 @@ import com.rpg.rpg_app.user.entity.User;
 import com.rpg.rpg_app.user.repository.UserRepository;
 import com.rpg.rpg_app.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class UserController {
     //Salva usuário.
     @PostMapping(path = "/save-user", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestBody UserPostRequestDTO userPostRequestDto) {
+    public ResponseEntity<?> save(@RequestBody @Valid UserPostRequestDTO userPostRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(objectMapperUtil.map(
                         userService.save(objectMapperUtil.map(userPostRequestDto, User.class)

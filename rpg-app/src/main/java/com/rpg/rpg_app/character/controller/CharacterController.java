@@ -6,6 +6,7 @@ import com.rpg.rpg_app.character.entity.Character;
 import com.rpg.rpg_app.character.service.CharacterService;
 import com.rpg.rpg_app.infrastructure.mapper.ObjectMapperUtil;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +34,7 @@ public class CharacterController {
     //Salva personagem.
     @PostMapping(path = "/save-character", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestBody CharacterPostRequestDTO characterPostRequestDto) {
+    public ResponseEntity<?> save(@RequestBody @Valid CharacterPostRequestDTO characterPostRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(objectMapperUtil.map(
                         characterService.save(objectMapperUtil.map(characterPostRequestDto, Character.class))
