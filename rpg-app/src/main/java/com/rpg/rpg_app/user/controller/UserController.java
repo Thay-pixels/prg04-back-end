@@ -1,11 +1,9 @@
 package com.rpg.rpg_app.user.controller;
 
-import com.rpg.rpg_app.character.entity.Character;
 import com.rpg.rpg_app.infrastructure.mapper.ObjectMapperUtil;
 import com.rpg.rpg_app.user.dto.UserGetResponseDTO;
 import com.rpg.rpg_app.user.dto.UserPostRequestDTO;
 import com.rpg.rpg_app.user.entity.User;
-import com.rpg.rpg_app.user.repository.UserRepository;
 import com.rpg.rpg_app.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
