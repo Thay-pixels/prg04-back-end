@@ -23,7 +23,7 @@ import java.util.List;
 public class Player extends Person {
 
     @Column(name = "player_experience")
-    private int totalExp;
+    private String totalExp;
 
     //Relaçao onde um jogador tem um ou vários personagens.
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)

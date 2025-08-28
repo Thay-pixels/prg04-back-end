@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-rpg")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class UserController {
@@ -66,7 +66,7 @@ public class UserController {
         }
     }
 
-    //Encontra usuário por username.
+    //Encontra usuário por seu username.
     @GetMapping(path = "/find/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByUsername(@PathVariable String username) {
         try {
@@ -80,7 +80,7 @@ public class UserController {
         }
     }
 
-    //Encontra usuário por email.
+    //Encontra usuário por seu email.
     @GetMapping(path = "/find/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByEmail(@PathVariable String email) {
         try {

@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SessionGetResponseDTO {
+public class SessionPostRequestDTO {
 
     @JsonProperty(value = "title")
     private String title;

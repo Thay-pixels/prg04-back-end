@@ -19,7 +19,7 @@ import java.util.List;
 public class Master extends Person {
 
     @Column(name = "num_sessions_created")
-    private int sessionsCreated;
+    private String sessionsCreated;
 
     //Lista de sessões de um mestre. Um mestre pode ter uma ou muitas sessões.
     @OneToMany(mappedBy = "master", cascade = CascadeType.ALL, orphanRemoval = true)

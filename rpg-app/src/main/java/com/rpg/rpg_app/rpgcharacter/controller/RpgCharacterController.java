@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/character-rpg")
+@RequestMapping("/characters")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class RpgCharacterController {
@@ -66,7 +66,7 @@ public class RpgCharacterController {
         }
     }
 
-    //Encontra personagem por nome.
+    //Encontra personagem por seu nome.
     @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByName(@PathVariable String name) {
         try {
@@ -80,17 +80,17 @@ public class RpgCharacterController {
         }
     }
 
-    //Encontra personagem por raça.
-    @GetMapping(path = "/find/raca/{raca}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findByRaca(@PathVariable String raca) {
+    //Encontra personagem por sua classe.
+    @GetMapping(path = "/find/character-class/{characterClass}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findByCharacterClass(@PathVariable String characterClass) {
         try {
-            List<RpgCharacterGetResponseDTO> characters = objectMapperUtil.mapAll(characterService.findByRaca(raca), RpgCharacterGetResponseDTO.class);
+            List<RpgCharacterGetResponseDTO> characters = objectMapperUtil.mapAll(characterService.findByCharacterClass(characterClass), RpgCharacterGetResponseDTO.class);
             if (characters.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum personagem encontrado com essa raça.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum personagem encontrado com essa classe.");
             }
             return ResponseEntity.ok(characters);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar personagem com esta raça.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar personagem com esta classe.");
         }
     }
 

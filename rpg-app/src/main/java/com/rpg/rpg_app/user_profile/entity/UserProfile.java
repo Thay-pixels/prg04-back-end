@@ -25,9 +25,9 @@ public class UserProfile extends PersistenceEntity implements Serializable {
     private AcessLevel nivelAcesso;
 
     @Column(name = "permissions")
-    private String permissoes;
+    private String permissions;
 
     @Column(name = "description")
-    private String descricao;
+    private String description;
 
 }

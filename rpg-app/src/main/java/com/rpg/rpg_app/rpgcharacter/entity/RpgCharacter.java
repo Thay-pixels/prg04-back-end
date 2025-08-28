@@ -25,7 +25,7 @@ public class RpgCharacter extends PersistenceEntity implements Serializable {
     private int age;
 
     @Column(name = "class",   nullable = false)
-    private String characterClass; //CLasse do personagem.
+    private String characterClass; //Classe do personagem.
 
     @Column(name = "description")
     private String description;

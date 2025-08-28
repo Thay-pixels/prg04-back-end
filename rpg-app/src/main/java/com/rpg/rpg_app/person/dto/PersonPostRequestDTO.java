@@ -8,12 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonGetResponseDTO {
+public class PersonPostRequestDTO {
 
     @JsonProperty(value = "name")
     private String name;
 
     @JsonProperty(value = "age")
-    private String age;
+    private int age;
+
+    @JsonProperty(value = "email")
+    private String email;
 
 }

@@ -26,7 +26,7 @@ public interface RpgCharacterIService {
     //Função para encontrar personagem por nome.
     public abstract List<RpgCharacter> findByName(String name);
 
-    //Função para encontrar personagem por raça.
-    public abstract List<RpgCharacter> findByRaca(String raca);
+    //Função para encontrar personagem por classe.
+    public abstract List<RpgCharacter> findByCharacterClass(String characterClass);
 
 }

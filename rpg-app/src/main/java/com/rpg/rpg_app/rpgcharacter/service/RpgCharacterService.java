@@ -16,10 +16,11 @@ public class RpgCharacterService implements RpgCharacterIService {
 
     private final RpgCharacterRepository rpgCharacterRepository;
 
+
     //Funçao teste para testar a 'api'.
     public String printNameCharacter(String name) {
 
-        return "RpgCharacter " + name;
+        return "Welcome dear" + name;
 
     }
 
@@ -33,7 +34,7 @@ public class RpgCharacterService implements RpgCharacterIService {
 
     }
 
-    //Função de salvar usuario.
+    //Função de salvar personagem.
     @Override
     @Transactional
     public RpgCharacter save(RpgCharacter rpgCharacter) {
@@ -42,12 +43,12 @@ public class RpgCharacterService implements RpgCharacterIService {
 
     }
 
-    //Função de dar update num usuario.
+    //Função de dar update num personagem.
     @Override
     @Transactional
     public RpgCharacter update(RpgCharacter rpgCharacter) {
         if (rpgCharacter.getId() == null || !rpgCharacterRepository.existsById(rpgCharacter.getId())) {
-            throw new BusinessException("O usuario não foi encontrado para atualizar.");
+            throw new BusinessException("O personagem não foi encontrado para atualizar.");
         }
 
         validation(rpgCharacter);
@@ -55,12 +56,12 @@ public class RpgCharacterService implements RpgCharacterIService {
 
     }
 
-    //Funcao de apagar um usuario.
+    //Funcao de apagar um personagem.
     @Override
     @Transactional
     public void delete(RpgCharacter rpgCharacter) {
         if (rpgCharacter == null || rpgCharacter.getId() == null) {
-            throw new BusinessException("O usuário não foi econtrado para deletar.");
+            throw new BusinessException("O personagem não foi econtrado para deletar.");
         }
 
         rpgCharacterRepository.delete(rpgCharacter);
@@ -91,11 +92,11 @@ public class RpgCharacterService implements RpgCharacterIService {
         return rpgCharacterRepository.findByName(name);
     }
 
-    //Função para encontrar personagem por raça.
+    //Função para encontrar personagem por classe.
     @Override
-    public List<RpgCharacter> findByRaca(String raca) {
+    public List<RpgCharacter> findByCharacterClass(String characterClass) {
 
-        return rpgCharacterRepository.findByRaca(raca);
+        return rpgCharacterRepository.findByCharacterClass(characterClass);
     }
 
 }

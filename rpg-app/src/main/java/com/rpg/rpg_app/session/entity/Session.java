@@ -24,14 +24,18 @@ import java.util.List;
 public class Session extends PersistenceEntity implements Serializable {
 
     @Column(name = "title",  nullable = false)
-    private String titulo;
+    private String title;
 
     @Column(name = "description",  nullable = false)
-    private String descricao;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "master_id", referencedColumnName = "id")
     private Master master;
+
+    @ManyToOne
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    private Player player;
 
     @ManyToMany
     @JoinTable(
@@ -39,6 +43,6 @@ public class Session extends PersistenceEntity implements Serializable {
             joinColumns = @JoinColumn(name = "session_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id")
     )
-    private List<Player> jogadores = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
 
 }

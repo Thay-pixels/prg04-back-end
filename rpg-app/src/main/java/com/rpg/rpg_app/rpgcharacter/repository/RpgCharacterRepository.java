@@ -11,7 +11,7 @@ public interface RpgCharacterRepository extends JpaRepository<RpgCharacter, Long
     //Busca personagem pelo nome.
     List<RpgCharacter> findByName(String name);
 
-    //Busca personagem pela raça.
-    List<RpgCharacter> findByRaca(String raca);
+    //Busca personagem pela classe.
+    List<RpgCharacter> findByCharacterClass(String characterClass);
 
 }
